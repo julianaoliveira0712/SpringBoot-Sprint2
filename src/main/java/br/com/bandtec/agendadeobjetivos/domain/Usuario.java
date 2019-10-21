@@ -40,6 +40,14 @@ public class Usuario {
 		this.dataNascimento = dataNascimento;
 	}
 
+	public Usuario(Long id, Credenciais credenciais, String nome, String nickname, String dataNascimento) {
+		this.id = id;
+		this.credenciais = credenciais;
+		this.nome = nome;
+		this.nickname = nickname;
+		this.dataNascimento = dataNascimento;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -33,7 +33,7 @@ public class LoginController {
 		}
 		Usuario u = todosUsuarios.porEmail(usuario.getCredenciais().getEmail());
 		Token token = new Token(u, new Date().toString(), Math.random() + usuario.getNome());
-		Token.tokens.add(token);
+		Token.addToken(token);
 		return ResponseEntity.ok(token.valor);
 	}
 
