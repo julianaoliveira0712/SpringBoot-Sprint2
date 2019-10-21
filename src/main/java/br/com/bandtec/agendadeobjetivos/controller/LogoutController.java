@@ -21,7 +21,7 @@ public class LogoutController {
     }
 
     private void logout(Credenciais credenciais){
-        if(todosUsuarios.existe(credenciais.getLogin(), credenciais.getSenha()) != null) {
+        if(todosUsuarios.existe(credenciais) != null) {
             logado.remove(credenciais);
         }
     }

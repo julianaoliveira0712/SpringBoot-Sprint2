@@ -3,10 +3,7 @@ package br.com.bandtec.agendadeobjetivos.domain;
 import br.com.bandtec.agendadeobjetivos.seguranca.Credenciais;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,13 +12,7 @@ public class MemoryLine {
 
 	@Id
 	@GeneratedValue
-	private int idMemoryLine;
-
-	@JsonProperty
-	private  String idOwner;
-
-//    @JsonProperty
-//    private List<String> psrticipantes;
+	private Long idMemoryLine;
 
 	@JsonProperty
 	private String creationDate;
@@ -29,22 +20,24 @@ public class MemoryLine {
 	@JsonProperty
 	private String name;
 
+	@OneToMany(mappedBy = "memoryLine", cascade = CascadeType.ALL)
+	private List<Moments> moment;
 
+	@ManyToOne
+	@JoinColumn(name = "owner")
+	private Usuario owner;
 
-	public Integer getIdMemoryLine() {
+	public MemoryLine() {
+
+	}
+
+	public MemoryLine(String creationDate, String name) {
+		this.creationDate = creationDate;
+		this.name = name;
+	}
+
+	public Long getIdMemoryLine() {
 		return idMemoryLine;
-	}
-
-	public void setIdMemoryLine(Integer idMoments) {
-		this.idMemoryLine = idMoments;
-	}
-
-	public String getIdOwner() {
-		return idOwner;
-	}
-
-	public void setIdOwner(String idOwner) {
-		this.idOwner = idOwner;
 	}
 
 	public String getCreationDate() {
@@ -63,4 +56,16 @@ public class MemoryLine {
 		this.name = name;
 	}
 
+	public void setOwner(Usuario owner) {
+		this.owner = owner;
+	}
+
+	public void addMoment(Moments moments) {
+		moment.add(moments);
+		moments.setMemoryLine(this);
+	}
+
+	public List<Moments> getMoment() {
+		return moment;
+	}
 }

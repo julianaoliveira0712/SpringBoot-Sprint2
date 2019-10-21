@@ -2,22 +2,16 @@ package br.com.bandtec.agendadeobjetivos.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table (name = "moments")
+@Table (name = "moment")
 public class Moments {
 
     @Id
     @GeneratedValue
-    private int id;
-
-    @JsonProperty
-    private String owner;
+    private Long id;
 
     @JsonProperty
     private String type;
@@ -25,16 +19,51 @@ public class Moments {
     @JsonProperty
     private String urlBucket;
 
+    @ManyToOne
+    @JoinColumn(name = "memoryLine")
+    private MemoryLine memoryLine;
+
     @JsonProperty
-    private idMemoryLine
+    private String description;
 
-     "owner": headerRequest,
-            "type": bodyRequest["typeMoment"],
-            "urlBucket": bodyRequest["urlBucket"],
-            "idMemoryLine": id_memory_line,
-            "creationDate": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "description": bodyRequest["description"]
+    public Moments() {
+    }
 
+    public Moments(String type, String urlBucket, String description) {
+        this.type = type;
+        this.urlBucket = urlBucket;
+        this.description = description;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUrlBucket() {
+        return urlBucket;
+    }
+
+    public void setUrlBucket(String urlBucket) {
+        this.urlBucket = urlBucket;
+    }
+
+    public void setMemoryLine(MemoryLine memoryLine) {
+        this.memoryLine = memoryLine;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

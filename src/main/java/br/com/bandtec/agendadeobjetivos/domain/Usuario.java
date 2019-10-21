@@ -2,12 +2,7 @@ package br.com.bandtec.agendadeobjetivos.domain;
 
 import java.util.List;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import br.com.bandtec.agendadeobjetivos.seguranca.Credenciais;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,6 +15,7 @@ public class Usuario {
 	@GeneratedValue
 	private Long id;
 	
+	@Embedded
 	@JsonProperty
 	private Credenciais credenciais;
 
@@ -27,14 +23,65 @@ public class Usuario {
 	private String nome;
 
 	@JsonProperty
-	private String email;
+	private String nickname;
+
+	@JsonProperty
+	private String dataNascimento;
+	
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	private List<MemoryLine> memoryLines;
 
 	public Usuario() {}
-	
-	public Usuario(String nome, String email, Credenciais credenciais) {
+
+	public Usuario(Credenciais credenciais, String nome, String nickname, String dataNascimento) {
+		this.credenciais = credenciais;
 		this.nome = nome;
-		this.email = email;
+		this.nickname = nickname;
+		this.dataNascimento = dataNascimento;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public Credenciais getCredenciais() {
+		return credenciais;
+	}
+
+	public void setCredenciais(Credenciais credenciais) {
 		this.credenciais = credenciais;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(String dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public void addMemoryLine(MemoryLine memoryLine) {
+		memoryLines.add(memoryLine);
+		memoryLine.setOwner(this);
+	}
+
+	public List<MemoryLine> getMemoryLines() {
+		return memoryLines;
+	}
 }

@@ -12,15 +12,15 @@ import br.com.bandtec.agendadeobjetivos.seguranca.Credenciais;
 @Repository
 public interface TodosUsuarios extends JpaRepository<Usuario, Long> {
 
-	@Query("select u from Usuario u where u.email = :login and senha = :senha")
-	public Usuario existe(@Param("login") String login, @Param("senha") String senha);
+	@Query("select u from Usuario u where u.credenciais = :credenciais")
+	public Usuario existe(@Param("credenciais") Credenciais c);
 
 	@Query("from Usuario where nome = :nome")
 	public List<Usuario> porNome(@Param("nome") String nome);
 
-	@Query("from Usuario where email = :email")
-	public List<Usuario> porEmail(@Param("email") String email);
+	@Query("from Usuario where idade = :idade")
+	public List<Usuario> porIdade(@Param("idade") Integer idade);
 
-	@Query("delete u from Usuario e where credenciais = credenciais")
-	public  List<Credenciais> deleteUser(@Param("credenciais")Credenciais credenciais);
+	@Query("from Usuario where credenciais.email = :email")
+	public Usuario porEmail(@Param("email") String email);
 }
